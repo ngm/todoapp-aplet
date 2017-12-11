@@ -10,9 +10,16 @@ session_start();
 if (isset($_SESSION['todos']))
 {
     echo "<ul>";
-    foreach ($_SESSION['todos'] as $label)
+    foreach ($_SESSION['todos'] as $index => $todo)
     {
-        echo "<li>" . $label . "</li>";
+        echo "<form action='./markdone.php' method='post'>";
+        echo "<li>";
+        echo $todo['status'] == "DONE" ? "DONE " : "";
+        echo $todo['label'];
+        echo "<input name='todo_id' type='hidden' value=" . $index . " />";
+        echo $todo['status'] == "DONE" ? "" : "<button name='MarkDone'>Mark Done</button>";
+        echo "</li>";
+        echo "</form>";
     }
     echo "</ul>";
 }

@@ -7,7 +7,7 @@ if (!isset($_SESSION['todos']))
 }
 
 if (isset($_GET['label']) && !empty($_GET['label'])) {
-    $_SESSION['todos'][] = $_GET['label'];
+    $_SESSION['todos'][] = array('label' => $_GET['label'], 'status' => "TODO");
 } else {
     echo "Please enter a label for your todo.";
 }
