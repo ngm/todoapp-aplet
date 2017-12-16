@@ -1,5 +1,21 @@
 <?php
 session_start();
+
+// Read features from config.
+$fileHandle = fopen('todo.config','r');
+while ($line = fgets($fileHandle)) {
+    if (!isset($_SESSION['features']))
+    {
+        $_SESSION['features'] = array(); 
+    }
+    $_SESSION['features'][trim($line)] = true;
+}
+fclose($fh);
+
+function featureIsEnabled($featureName)
+{
+    return (isset($_SESSION['features'][$featureName]) && $_SESSION['features'][$featureName] == true);
+}
 ?>
 
 <h1>Super Todo Manager</h1>
@@ -11,17 +27,20 @@ if (isset($_SESSION['todos']))
 {
     $todos = $_SESSION['todos'];
 
-    if (isset($_GET['filter']))
+    if (featureIsEnabled("Filter"))
     {
         $filter = $_GET['filter'];
-        $todos = array_filter($todos, function($value) use ($filter) { return $value['status'] == $filter; });
-    }
+        if ($filter != "")
+        {
+            $todos = array_filter($todos, function($value) use ($filter) { return $value['status'] == $filter; });
+        }
 
-    echo "<p>Filter:";
-    echo "<a href='./index.php?filter=TODO'>TODO</a> ";
-    echo "<a href='./index.php?filter=DONE'>DONE</a> ";
-    echo "<a href='./index.php'>NO FILTER</a>";
-    echo "</p>";
+        echo "<p>Filter:";
+        echo "<a href='./index.php?filter=TODO'>TODO</a> ";
+        echo "<a href='./index.php?filter=DONE'>DONE</a> ";
+        echo "<a href='./index.php'>NO FILTER</a>";
+        echo "</p>";
+    }
 
     echo "<ul>";
     foreach ($todos as $index => $todo)
