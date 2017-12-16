@@ -42,22 +42,26 @@ if (isset($_SESSION['todos']))
         echo "</p>";
     }
 
-    $searchTerm = "";
-    if (isset($_GET['searchTerm']))
+    if (featureIsEnabled("Filter"))
     {
-        $searchTerm = $_GET['searchTerm'];
-        $todos = array_filter(
-            $todos,
-            function($value) use ($searchTerm) {
-                return stripos($value['label'], $searchTerm) !== false;
-            }
-        );
-    }
+        $searchTerm = "";
+        if (isset($_GET['searchTerm']))
+        {
+            $searchTerm = $_GET['searchTerm'];
+            $todos = array_filter(
+                $todos,
+                function($value) use ($searchTerm) {
+                    return stripos($value['label'], $searchTerm) !== false;
+                }
+            );
+        }
 
-    echo "<p>Search:</p>";
-    echo "<form id='search'>";
-    echo "<input type='text' name='searchTerm' placeholder='Search term...' value='" . $searchTerm . "' />";
-    echo "</form>";
+
+        echo "<p>Search:</p>";
+        echo "<form id='search'>";
+        echo "<input type='text' name='searchTerm' placeholder='Search term...' value='" . $searchTerm . "' />";
+        echo "</form>";
+    }
 
     echo "<ul>";
     foreach ($todos as $index => $todo)
