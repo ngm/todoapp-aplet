@@ -42,7 +42,7 @@ if (isset($_SESSION['todos']))
         echo "</p>";
     }
 
-    if (featureIsEnabled("Filter"))
+    if (featureIsEnabled("Search"))
     {
         $searchTerm = "";
         if (isset($_GET['searchTerm']))
