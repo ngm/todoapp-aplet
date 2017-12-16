@@ -10,7 +10,7 @@ while ($line = fgets($fileHandle)) {
     }
     $_SESSION['features'][trim($line)] = true;
 }
-fclose($fh);
+fclose($fileHandle);
 
 function featureIsEnabled($featureName)
 {
