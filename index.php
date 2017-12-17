@@ -1,21 +1,10 @@
 <?php
+require_once './functions.php';
+
 session_start();
 
-// Read features from config.
-$fileHandle = fopen('todo.config','r');
-while ($line = fgets($fileHandle)) {
-    if (!isset($_SESSION['features']))
-    {
-        $_SESSION['features'] = array(); 
-    }
-    $_SESSION['features'][trim($line)] = true;
-}
-fclose($fileHandle);
+loadConfig();
 
-function featureIsEnabled($featureName)
-{
-    return (isset($_SESSION['features'][$featureName]) && $_SESSION['features'][$featureName] == true);
-}
 ?>
 
 <h1>Super Todo Manager</h1>
@@ -70,6 +59,10 @@ if (isset($_SESSION['todos']))
         echo "<li>";
         echo $todo['status'] == "DONE" ? "DONE " : "";
         echo $todo['label'];
+        if (featureIsEnabled("DescriptionField"))
+        {
+            echo " / " . $todo['description'];
+        }
         echo "<input name='todo_id' type='hidden' value=" . $index . " />";
         echo $todo['status'] == "DONE" ? "" : "<button name='MarkDone'>Mark Done</button>";
         echo "</li>";
