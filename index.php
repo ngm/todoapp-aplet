@@ -31,7 +31,7 @@ if (isset($_SESSION['todos']))
         echo "</p>";
     }
 
-    if (featureIsEnabled("Search"))
+    if (featureIsEnabled("Searc"))
     {
         $searchTerm = "";
         if (isset($_GET['searchTerm']))
